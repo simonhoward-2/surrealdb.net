@@ -14,6 +14,7 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="FluentAssertions" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
         <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
         <PackageReference Include="Semver" />
         <PackageReference Include="TUnit" />
@@ -24,6 +25,7 @@
       <ProjectReference Include="..\SurrealDb.Embedded.RocksDb\SurrealDb.Embedded.RocksDb.csproj" />
       <ProjectReference Include="..\SurrealDb.Net.Tests.Extensions\SurrealDb.Net.Tests.Extensions.csproj" />
       <ProjectReference Include="..\SurrealDb.Net.Tests.Fixtures\SurrealDb.Net.Tests.Fixtures.csproj" />
+      <ProjectReference Include="..\SurrealDb.Examples.WeatherApi\SurrealDb.Examples.WeatherApi.csproj" />
       <ProjectReference Include="..\SurrealDb.Net\SurrealDb.Net.csproj" />
     </ItemGroup>
 

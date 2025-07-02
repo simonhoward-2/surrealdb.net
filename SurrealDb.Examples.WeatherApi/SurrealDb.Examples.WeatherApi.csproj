@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+     <InternalsVisibleTo Include="SurrealDb.Net.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SurrealDb.Net\SurrealDb.Net.csproj" />
   </ItemGroup>
 

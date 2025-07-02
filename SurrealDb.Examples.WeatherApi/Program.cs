@@ -69,3 +69,5 @@ async Task InitializeDbAsync()
 
     await Task.WhenAll(tasks);
 }
+
+public partial class Program { }
