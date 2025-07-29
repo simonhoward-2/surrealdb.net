@@ -9,24 +9,23 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using SurrealDb.Examples.WeatherApi.Models;
 
 namespace SurrealDb.Net.Tests;
 
 public class WeatherForecastDto
 {
-    public string? Id { get; set; }
+    public string? id { get; set; }
 
-    public DateTime Date { get; set; }
+    public DateTime date { get; set; }
 
-    public string? Country { get; set; }
+    public string? country { get; set; }
 
-    public int TemperatureC { get; set; }
+    public int temperatureC { get; set; }
 
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public int temperatureF => 32 + (int)(temperatureC / 0.5556);
 
-    public string? Summary { get; set; }
+    public string? summary { get; set; }
 }
 
 public class ControllerIntegrationTests
@@ -70,7 +69,9 @@ public class ControllerIntegrationTests
         var response = await httpClient.GetAsync($"WeatherForecast");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsStringAsync();
-        var forecasts = JsonConvert.DeserializeObject<List<WeatherForecastDto>>(content);
+        var forecasts = System.Text.Json.JsonSerializer.Deserialize<List<WeatherForecastDto>>(
+            content
+        );
 
         stopwatchGetAll.Stop();
         Console.WriteLine(
@@ -113,14 +114,23 @@ public class ControllerIntegrationTests
         var stopwatchGet = new Stopwatch();
         stopwatchGet.Start();
 
-        var response = await httpClient.GetAsync($"WeatherForecast/{forecast.Id}");
+        var response = await httpClient.GetAsync($"WeatherForecast/{forecast.id}");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var selectedForecast = JsonConvert.DeserializeObject<WeatherForecastDto>(
-            await response.Content.ReadAsStringAsync()
+        var objectResultString = await response.Content.ReadAsStringAsync();
+        // var objectResult = System.Text.Json.JsonSerializer.Deserialize<OkObjectResult>(
+        //     objectResultString
+        // );
+        // objectResult.Should().NotBeNull("Object result should not be null");
+        // if (objectResult is null || objectResult.Value is null)
+        // {
+        //     throw new InvalidOperationException("Object result is null");
+        // }
+        var selectedForecast = System.Text.Json.JsonSerializer.Deserialize<WeatherForecastDto>(
+            objectResultString
         );
         stopwatchGet.Stop();
         Console.WriteLine(
-            $"Result: {selectedForecast?.Id}. Time to select {stopwatchGet.Elapsed.TotalMilliseconds.ToString("#.##")} miliseconds. Time: {DateTime.Now.ToString("HH:mm:ss.fff")}"
+            $"Result: {selectedForecast?.id}. Time to select {stopwatchGet.Elapsed.TotalMilliseconds.ToString("#.##")} miliseconds. Time: {DateTime.Now.ToString("HH:mm:ss.fff")}"
         );
     }
 
